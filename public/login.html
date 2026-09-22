@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - OAuth</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f4f4f9; }
+        .login-card { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; width: 320px; }
+        .btn { display: block; width: 100%; padding: 12px; margin: 12px 0; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; text-decoration: none; color: white; font-weight: bold; box-sizing: border-box; }
+        .btn-google { background-color: #db4437; }
+        .btn-github { background-color: #24292e; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h2>Painel de Acesso</h2>
+        <p>Escolha um dos serviços para entrar:</p>
+        <a href="/api/auth/google" class="btn btn-google">Entrar com Google</a>
+        <a href="/api/auth/github" class="btn btn-github">Entrar com GitHub</a>
+    </div>
+</body>
+</html>
