@@ -29,7 +29,7 @@ export async function onRequestGet(context) {
   }
 
   // 2. Buscar dados do perfil do utilizador
-  const userResponse = await fetch("https://www.googleapis.com/auth2/v2/userinfo", {
+  const userResponse = await fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
     headers: { "Authorization": `Bearer ${tokenData.access_token}` }
   });
 
