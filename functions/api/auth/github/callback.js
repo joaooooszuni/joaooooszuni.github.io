@@ -15,11 +15,11 @@ export async function onRequestGet(context) {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: JSON.stringify({
-        client_id: env.GITHUB_CLIENT_ID,
-        client_secret: env.GITHUB_CLIENT_SECRET,
-        code,
-      }),
+     body: JSON.stringify({
+    client_id: context.env.GITHUB_CLIENT_ID,
+    client_secret: context.env.GITHUB_CLIENT_SECRET,
+    code,
+   }),
     });
 
     const tokenData = await tokenResponse.json();

@@ -1,29 +1,29 @@
 export async function onRequestGet(context) {
-  const { request, env } = context;
-  const url = new URL(request.url);
-  const code = url.searchParams.get('code');
+    const { env, request } = context;
+    const url = new URL(request.url);
+    const code = url.searchParams.get('code');
 
-  if (!code) {
-    return new Response('Código de autorização do Google não fornecido.', { status: 400 });
-  }
+    if (!code) {
+        return new Response('Código de autorização não fornecido.', { status: 400 });
+    }
 
-  try {
-    const redirectUri = `${url.origin}/api/auth/google/callback`;
+    try {
+        const redirectUri = `${url.origin}/api/auth/google/callback`;
 
-    // 1. Troca o código pelo Token de Acesso
-    const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        code,
-        client_id: env.GOOGLE_CLIENT_ID,
-        client_secret: env.GOOGLE_CLIENT_SECRET,
-        redirect_uri: redirectUri,
-        grant_type: 'authorization_code',
-      }),
-    });
+        // 1. Troca o código pelo Token de Acesso
+        const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                code,
+                client_id: env.GOOGLE_CLIENT_ID,
+                client_secret: env.GOOGLE_CLIENT_SECRET,
+                redirect_uri: redirectUri,
+                grant_type: 'authorization_code',
+            }),
+        });
 
     const tokenData = await tokenResponse.json();
     if (tokenData.error) {
