@@ -8,7 +8,7 @@ export async function onRequestGet(context) {
   }
 
   // 1. Trocar o código pelo Access Token no GitHub
-  const tokenResponse = await fetch("https://github.com/login/oauth/access_token", {
+  const tokenResponse = await fetch("https://github.com/login/auth/access_token", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
