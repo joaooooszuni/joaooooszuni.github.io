@@ -1,16 +1,14 @@
 export async function onRequestGet(context) {
-  const clientId = context.env.GITHUB_CLIENT_ID;
-  
-  if (!clientId) {
-    return new Response("GITHUB_CLIENT_ID não configurado nas variáveis do Cloudflare", { status: 500 });
-  }
+  const { request, env } = context;
+  const url = new URL(request.url);
 
-  // URL para onde o GitHub redireciona após o login
-  const redirectUri = "https://joaooooszuni-github-io.pages.dev/api/auth/github/callback";
-  
-  // Constrói a URL do GitHub
-  const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=user:email`;
+  // Define para onde o GitHub deve devolver o utilizador após autorizar
+  const redirectUri = `${url.origin}/api/auth/github/callback`;
 
-  // Redireciona para a página do GitHub
+  const githubAuthUrl = `https://github.com/login/oauth/authorize?` +
+    `client_id=${env.GITHUB_CLIENT_ID}&` +
+    `redirect_uri=${encodeURIComponent(redirectUri)}&` +
+    `scope=read:user%20user:email`;
+
   return Response.redirect(githubAuthUrl, 302);
 }

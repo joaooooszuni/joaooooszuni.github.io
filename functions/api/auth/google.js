@@ -1,16 +1,17 @@
 export async function onRequestGet(context) {
-  const clientId = context.env.GOOGLE_CLIENT_ID;
+  const { request, env } = context;
+  const url = new URL(request.url);
 
-  if (!clientId) {
-    return new Response("GOOGLE_CLIENT_ID não configurado nas variáveis do Cloudflare", { status: 500 });
-  }
+  // Define a URL de retorno para onde o Google deve devolver o utilizador
+  const redirectUri = `${url.origin}/api/auth/google/callback`;
 
-  // URL para onde o Google redireciona após o login
-  const redirectUri = "https://joaooooszuni-github-io.pages.dev/api/auth/google/callback";
-  
-  // Constrói a URL do Google OAuth
-  const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=openid%20email%20profile`;
+  const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
+    `client_id=${env.GOOGLE_CLIENT_ID}&` +
+    `redirect_uri=${encodeURIComponent(redirectUri)}&` +
+    `response_type=code&` +
+    `scope=${encodeURIComponent('openid email profile')}&` +
+    `access_type=offline&` +
+    `prompt=select_account`;
 
-  // Redireciona para a página do Google
   return Response.redirect(googleAuthUrl, 302);
 }
