@@ -3,7 +3,7 @@ export async function onRequestGet(context) {
   const url = new URL(request.url);
 
   // Define para onde o GitHub deve devolver o utilizador após autorizar
-  const redirectUri = `${url.origin}/api/auth/github/callback`;
+  const redirectUri = `${url.origin}/api/oauth/github/callback`;
 
   const githubAuthUrl = `https://github.com/login/oauth/authorize?` +
     `client_id=${env.GITHUB_CLIENT_ID}&` +

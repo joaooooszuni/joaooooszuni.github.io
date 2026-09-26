@@ -3,7 +3,7 @@ export async function onRequestGet(context) {
   const url = new URL(request.url);
 
   // Define a URL de retorno para onde o Google deve devolver o utilizador
-  const redirectUri = `${url.origin}/api/auth/google/callback`;
+  const redirectUri = `${url.origin}/api/oauth/google/callback`;
 
   const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
     `client_id=${env.GOOGLE_CLIENT_ID}&` +
