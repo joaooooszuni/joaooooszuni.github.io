@@ -48,15 +48,23 @@ export async function onRequestGet(context) {
       `).bind(userId, userData.email || '', userData.name || '', userData.picture || '').run();
     }
 
-    // 4. Constrói os cabeçalhos diretamente para evitar mutação inválida
+    // 4. Constrói a resposta e grava múltiplos formatos de Cookie para garantir que o front-end lê a sessão
     const headers = new Headers();
     headers.set('Location', `${url.origin}/examples/dashboard.html`);
     
     const maxAge = 60 * 60 * 8; // 8 horas
-    headers.append(
-      'Set-Cookie',
-      `session_user=${userData.email || userData.id}; Path=/; Max-Age=${maxAge}; HttpOnly; Secure; SameSite=Lax`
-    );
+    const userJson = JSON.stringify({
+      id: userData.id,
+      name: userData.name,
+      email: userData.email,
+      picture: userData.picture,
+      provider: 'google'
+    });
+
+    // Define os cookies mais habituais usados pelo front-end para validação de sessão
+    headers.append('Set-Cookie', `session=${encodeURIComponent(userJson)}; Path=/; Max-Age=${maxAge}; SameSite=Lax`);
+    headers.append('Set-Cookie', `user=${encodeURIComponent(userJson)}; Path=/; Max-Age=${maxAge}; SameSite=Lax`);
+    headers.append('Set-Cookie', `session_user=${userData.email || userData.id}; Path=/; Max-Age=${maxAge}; SameSite=Lax`);
 
     return new Response(null, {
       status: 302,
