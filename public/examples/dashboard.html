@@ -151,13 +151,17 @@
                                     <a class="dropdown-item" href="#">Separated link</a>
                                 </div>
                             </li>
-                          <li class="nav-item">
-                           <form action="/api/oauth/logout" method="post" style="padding: 0; margin: 0;">
-                                <button type="submit" class="nav-link" style="background: none; border: none; cursor: pointer;">
-                             <span class="no-icon">Log out</span>
-                           </button>
-                          </form>
-                         </li>
+                            <li class="nav-item">
+                                         <button type="button" id="logout-btn" class="nav-link" style="background: none; border: none; cursor: pointer;">
+                                           <span class="no-icon">Log out</span>
+                                        </button>
+
+                                       <script>
+                                     document.getElementById('logout-btn').addEventListener('click', () => {
+                                   window.location.href = '/api/auth/logout';
+                               });
+                            </script>
+                          </li>
                         </ul>
                     </div>
                 </div>
