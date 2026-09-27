@@ -1,4 +1,4 @@
-export async function onRequestPost(context) {
+export async function onRequest(context) {
   const { request, env } = context;
   const url = new URL(request.url);
 
@@ -27,14 +27,17 @@ export async function onRequestPost(context) {
     }
   }
 
-  // 3. Limpar o cookie no navegador e Redirecionar para o login
+  // 3. Limpar todos os cookies no navegador e redirecionar para o login
   const headers = new Headers();
-  headers.append('Location', `${url.origin}/login.html`);
-  headers.append('Cache-Control', 'no-store');
-  headers.append(
-    'Set-Cookie',
-    'Host-session=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Strict'
-  );
+  headers.set('Location', `${url.origin}/login.html`);
+  headers.set('Cache-Control', 'no-store');
+
+  const expiredFlags = 'Path=/; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax';
+  
+  headers.append('Set-Cookie', `Host-session=; ${expiredFlags}; HttpOnly; Secure`);
+  headers.append('Set-Cookie', `session=; ${expiredFlags}`);
+  headers.append('Set-Cookie', `user=; ${expiredFlags}`);
+  headers.append('Set-Cookie', `session_user=; ${expiredFlags}`);
 
   return new Response(null, { status: 302, headers });
 }
