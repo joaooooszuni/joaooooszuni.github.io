@@ -48,17 +48,20 @@ export async function onRequestGet(context) {
       `).bind(userId, userData.email || '', userData.name || '', userData.picture || '').run();
     }
 
-    // 4. Cria o Cookie de Sessão para garantir que o Dashboard não fecha
-    const response = Response.redirect(`${url.origin}/examples/dashboard.html`, 302);
+    // 4. Constrói os cabeçalhos diretamente para evitar mutação inválida
+    const headers = new Headers();
+    headers.set('Location', `${url.origin}/examples/dashboard.html`);
     
-    // Define o cookie de sessão compatível
     const maxAge = 60 * 60 * 8; // 8 horas
-    response.headers.append(
+    headers.append(
       'Set-Cookie',
       `session_user=${userData.email || userData.id}; Path=/; Max-Age=${maxAge}; HttpOnly; Secure; SameSite=Lax`
     );
 
-    return response;
+    return new Response(null, {
+      status: 302,
+      headers,
+    });
   } catch (err) {
     return new Response(`Erro no Callback do Google: ${err.message}`, { status: 500 });
   }
