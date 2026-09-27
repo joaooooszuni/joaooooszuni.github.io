@@ -173,9 +173,9 @@
                               </ul>
                         </li>
                <li id="logout-item">
-                        <form action="/oauth/logout" method="post" style="padding: 10px 15px; margin: 0;">
-                          <button type="submit" style="background: none; border: none; padding: 0; color: #777777; cursor: pointer; font-size: 14px; font-weight: 400;">Log out</button>
-                        </form>
+                              <form action="/oauth/logout" method="post" style="padding: 10px 15px; margin: 0;">
+                             <button type="submit" style="background: none; border: none; padding: 0; color: #777777; cursor: pointer; font-size: 14px; font-weight: 400;">Log out</button>
+                          </form>
                 </li>
 						<li class="separator hidden-lg"></li>
                     </ul>
@@ -445,17 +445,6 @@
       // Se der erro ou não houver sessão, manda para o login
       window.location.replace("/login.html");
     });
-
-  // 2. Faz o botão de Logout funcionar
-  document.addEventListener("DOMContentLoaded", () => {
-    const logoutBtn = document.getElementById("logout-btn"); // Confirma se o id do teu botão no HTML é "logout-btn"
-    if (logoutBtn) {
-      logoutBtn.addEventListener("click", async () => {
-        await fetch("/oauth/logout", { method: "POST", credentials: "same-origin" });
-        window.location.replace("/login.html");
-      });
-    }
-  });
 </script>
 
 
