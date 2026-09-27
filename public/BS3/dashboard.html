@@ -429,19 +429,30 @@
 </div>
 
 <script>
-  // Verifica se o utilizador está logado no sistema
+  // Tenta obter os dados do utilizador
   fetch("/api/me", { credentials: "same-origin" })
-    .then((response) => (response.ok ? response.json() : null))
-    .then((user) => {
-      if (!user) {
-        // Se não houver sessão ativa, redireciona para a página de login
+    .then((response) => {
+      // Se a resposta for erro de autenticação (ex: 401 Sem Cookie ou Sessão Expirada)
+      if (!response.ok) {
+        throw new Error("Não autenticado");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      // O teu me.js devolve diretamente o email no objeto (sem data.user)
+      if (!data || !data.email) {
         window.location.href = "/login.html";
       } else {
-        console.log("Sessão ativa para:", user.email || user.name);
+        console.log("Utilizador autenticado:", data);
+        // Opcional: preencher nome/email na tela se tiveres elementos para isso
       }
- })
-     .catch((err) => console.error("Erro ao validar sessão:", err));
-   </script>
+    })
+    .catch((err) => {
+      console.warn("Sem sessão ativa. Redirecionando para o login...", err);
+      window.location.href = "/login.html";
+    });
+</script>
+
 
 </body>
 
