@@ -1,0 +1,2 @@
+Homepage URL: https://joaooooszuni-github-io.pages.dev/
+Authorization callback URL: https://joaooooszuni-github-io.pages.dev/api/auth/github/callback

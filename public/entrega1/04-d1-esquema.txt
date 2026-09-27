@@ -1,8 +1,8 @@
-name                        type
---------------------------  -----
-oauth_transactions_expiry   index
-sessions_expiry             index
-_cf_KV                      table
-oauth_transactions          table
-sessions                    table
-users                       table
+name                        | type
+----------------------------+-------
+oauth_transactions_expiry   | index
+sessions_expiry             | index
+_cf_KV                      | table
+oauth_transactions          | table
+sessions                    | table
+users                       | table

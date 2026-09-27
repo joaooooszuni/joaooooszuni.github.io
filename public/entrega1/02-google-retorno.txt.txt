@@ -1,0 +1,1 @@
+https://joaooooszuni-github-io.pages.dev/api/auth/google/callback
