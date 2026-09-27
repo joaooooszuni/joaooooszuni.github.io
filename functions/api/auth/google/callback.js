@@ -48,20 +48,20 @@ export async function onRequestGet(context) {
       `).bind(userId, userData.email || '', userData.name || '', userData.picture || '').run();
     }
 
-    // 4. Constrói a resposta e grava múltiplos formatos de Cookie para garantir que o front-end lê a sessão
+    // 4. Constrói a resposta com o campo 'subject' exigido pelo front-end
     const headers = new Headers();
     headers.set('Location', `${url.origin}/examples/dashboard.html`);
     
     const maxAge = 60 * 60 * 8; // 8 horas
     const userJson = JSON.stringify({
       id: userData.id,
+      subject: userData.id, // Adicionado para passar na validação do dashboard
       name: userData.name,
       email: userData.email,
       picture: userData.picture,
       provider: 'google'
     });
 
-    // Define os cookies mais habituais usados pelo front-end para validação de sessão
     headers.append('Set-Cookie', `session=${encodeURIComponent(userJson)}; Path=/; Max-Age=${maxAge}; SameSite=Lax`);
     headers.append('Set-Cookie', `user=${encodeURIComponent(userJson)}; Path=/; Max-Age=${maxAge}; SameSite=Lax`);
     headers.append('Set-Cookie', `session_user=${userData.email || userData.id}; Path=/; Max-Age=${maxAge}; SameSite=Lax`);
