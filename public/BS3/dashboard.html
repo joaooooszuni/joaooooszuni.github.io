@@ -172,11 +172,11 @@
                                 <li><a href="#">Separated link</a></li>
                               </ul>
                         </li>
-                        <li>
-                            <a href="#">
-                                <p>Log out</p>
-                            </a>
-                        </li>
+               <li id="logout-item">
+                        <form action="/oauth/logout" method="post" style="padding: 10px 15px; margin: 0;">
+                          <button type="submit" style="background: none; border: none; padding: 0; color: #777777; cursor: pointer; font-size: 14px; font-weight: 400;">Log out</button>
+                        </form>
+                </li>
 						<li class="separator hidden-lg"></li>
                     </ul>
                 </div>
@@ -428,6 +428,20 @@
     </div>
 </div>
 
+<script>
+  // Verifica se o utilizador está logado no sistema
+  fetch("/api/me", { credentials: "same-origin" })
+    .then((response) => (response.ok ? response.json() : null))
+    .then((user) => {
+      if (!user) {
+        // Se não houver sessão ativa, redireciona para a página de login
+        window.location.href = "/login.html";
+      } else {
+        console.log("Sessão ativa para:", user.email || user.name);
+      }
+ })
+     .catch((err) => console.error("Erro ao validar sessão:", err));
+   </script>
 
 </body>
 
