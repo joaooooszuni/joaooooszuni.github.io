@@ -151,17 +151,36 @@
                                     <a class="dropdown-item" href="#">Separated link</a>
                                 </div>
                             </li>
-                            <li class="nav-item">
-                                         <button type="button" id="logout-btn" class="nav-link" style="background: none; border: none; cursor: pointer;">
-                                           <span class="no-icon">Log out</span>
-                                        </button>
+                           <li class="nav-item">
+  <button type="button" id="logout-btn" class="nav-link" style="background: none; border: none; cursor: pointer;">
+    <span class="no-icon">Log out</span>
+  </button>
 
-                                       <script>
-                                     document.getElementById('logout-btn').addEventListener('click', () => {
-                                   window.location.href = '/api/auth/logout';
-                               });
-                            </script>
-                          </li>
+  <script>
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+      // 1. Limpa todos os cookies acessíveis via JavaScript no navegador
+      document.cookie.split(";").forEach((c) => {
+        document.cookie = c
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
+
+      // 2. Limpa também o localStorage e sessionStorage (caso guarde algo lá)
+      localStorage.clear();
+      sessionStorage.clear();
+
+      // 3. Chama o endpoint de logout para limpar os cookies HttpOnly no servidor
+      try {
+        await fetch('/api/auth/logout', { method: 'GET' });
+      } catch (e) {
+        console.error("Erro ao chamar endpoint de logout:", e);
+      }
+
+      // 4. Força o redirecionamento e substitui o histórico para a página de login
+      window.location.replace('/login.html');
+    });
+  </script>
+</li>
                         </ul>
                     </div>
                 </div>
